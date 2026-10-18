@@ -24,6 +24,9 @@ h1.name{font-size:clamp(3.4rem,19vw,9.5rem);line-height:.95;letter-spacing:.04em
   background-size:200% 100%;background-repeat:repeat-x;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
   animation:flow 4s linear infinite;cursor:pointer;-webkit-user-select:none;user-select:none}
 @keyframes flow{from{background-position:0% 50%}to{background-position:200% 50%}}
+h1.name.split{background:none;animation:none;touch-action:manipulation;-webkit-touch-callout:none}
+h1.name.split .ch{display:inline-block;will-change:transform;background:linear-gradient(100deg,#b6ff00 0%,#f3ffc4 14%,var(--peach) 28%,var(--orange) 44%,var(--red) 58%,var(--orange) 72%,#f3ffc4 86%,#b6ff00 100%);background-size:12ch 100%;background-repeat:repeat-x;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:flowL 4s linear infinite}
+@keyframes flowL{from{background-position:calc(var(--i)*-1ch) 50%}to{background-position:calc(var(--i)*-1ch - 12ch) 50%}}
 .sub{color:var(--dim);letter-spacing:.25em;text-transform:uppercase;font-size:.78rem;margin:14px 0 0}
 .genre{letter-spacing:.3em;text-transform:uppercase;font-size:.76rem;margin:8px 0 0}
 .rel{margin:14px 0 14px;color:var(--acc);letter-spacing:.34em;text-transform:uppercase;font-size:.82rem}
@@ -141,6 +144,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset
   /* Вибрация: бонус. Android: navigator.vibrate; iOS: best-effort через input switch; без вибрации всё работает */
   function haptic(p){
     if(reduce)return;
+    if(navigator.userActivation&&!navigator.userActivation.hasBeenActive)return; /* браузер разрешает вибрацию только после реального касания */
     try{
       if(navigator.vibrate){navigator.vibrate(p);return}
       if(!('ontouchstart' in window))return;
@@ -201,15 +205,53 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset
       flipTo(Math.round(g.getProperty(disc,'rotationY')/180)*180+180);
     });
   }
-  /* Тап по TFD777: градиент на пару секунд разгоняется и слегка вспыхивает */
+  /* TFD777: тап и удержание ломают надпись (глич, смещение, расслоение цвета), отпустил: плавно собирается */
   var brand=document.getElementById('brand');
   if(brand&&!reduce){
-    brand.addEventListener('click',function(){
-      var a=brand.getAnimations&&brand.getAnimations()[0];
-      g.killTweensOf(brand);
-      g.fromTo(brand,{scale:1.05,filter:'brightness(1.9)'},{scale:1,filter:'brightness(1)',duration:.8,ease:'power3.out'});
-      if(a){g.killTweensOf(a);g.timeline().to(a,{playbackRate:5,duration:.2}).to(a,{playbackRate:1,duration:1.8,ease:'power2.out'})}
-    });
+    var word=brand.textContent.trim();
+    brand.setAttribute('aria-label',word);
+    brand.innerHTML=word.split('').map(function(c,i){return '<span class="ch" aria-hidden="true" style="--i:'+i+'">'+c+'</span>'}).join('');
+    brand.classList.add('split');
+    var chs=[].slice.call(brand.querySelectorAll('.ch')),damage=0,holding=false,rest=null,jit=null;
+    var rnd=function(a){return (Math.random()*2-1)*a};
+    function rate(r){chs.forEach(function(c){var a=c.getAnimations&&c.getAnimations()[0];if(a)a.playbackRate=r})}
+    function split(k){
+      brand.style.filter=k>.12?'drop-shadow('+(-6*k).toFixed(1)+'px 0 0 rgba(255,45,85,.85)) drop-shadow('+(6*k).toFixed(1)+'px 0 0 rgba(0,229,255,.85))':'none';
+    }
+    function shatter(k,dur){
+      var em=parseFloat(getComputedStyle(brand).fontSize);
+      chs.forEach(function(c){
+        g.to(c,{x:rnd(k*.55*em),y:rnd(k*.4*em),rotation:rnd(k*70),skewX:rnd(k*35),scaleX:1+rnd(k*.25),scaleY:1-Math.abs(rnd(k*.35)),duration:dur,ease:'power4.out',overwrite:true});
+      });
+      split(k);rate(1+5*k);
+    }
+    function loop(){
+      if(!holding)return;
+      damage=Math.min(1,damage+.05);shatter(damage,.09);
+      jit=g.delayedCall(.08,loop);
+    }
+    function reassemble(){
+      g.to(chs,{x:0,y:0,rotation:0,skewX:0,scaleX:1,scaleY:1,duration:1.2,ease:'power3.inOut',stagger:{each:.05,from:'random'},overwrite:true});
+      var o={d:damage};
+      g.to(o,{d:0,duration:1.2,ease:'power2.out',onUpdate:function(){damage=o.d;split(o.d);rate(1+5*o.d)},onComplete:function(){damage=0;brand.style.filter='none';rate(1)}});
+    }
+    function down(e){
+      e.preventDefault();
+      holding=true;damage=Math.min(1,damage+.25);
+      if(rest){rest.kill();rest=null}
+      if(jit){jit.kill()}
+      g.killTweensOf(chs);
+      shatter(damage,.12);haptic(8);
+      jit=g.delayedCall(.12,loop);
+    }
+    function up(){
+      if(!holding)return;
+      holding=false;if(jit){jit.kill();jit=null}
+      if(rest)rest.kill();
+      rest=g.delayedCall(.35,reassemble);
+    }
+    brand.addEventListener('pointerdown',down);
+    ['pointerup','pointercancel','pointerleave'].forEach(function(t){brand.addEventListener(t,up)});
   }
   /* ---------- Плитки площадок ---------- */
   function at(c,e){var r=c.getBoundingClientRect();return [Math.round(e.clientX-r.left),Math.round(e.clientY-r.top)]}
