@@ -27,10 +27,14 @@ h1.name{font-size:clamp(3.4rem,19vw,9.5rem);line-height:.95;letter-spacing:.04em
 .sub{color:var(--dim);letter-spacing:.25em;text-transform:uppercase;font-size:.78rem;margin:14px 0 0}
 .genre{letter-spacing:.3em;text-transform:uppercase;font-size:.76rem;margin:8px 0 0}
 .rel{margin:26px 0 20px;color:var(--acc);letter-spacing:.34em;text-transform:uppercase;font-size:.82rem}
-.stage{position:relative;isolation:isolate;perspective:900px;width:min(86vw,360px)}
+.stage{position:relative;isolation:isolate;width:min(86vw,360px);animation:float 6s ease-in-out infinite alternate}
 .stage::before{content:"";position:absolute;inset:-16%;z-index:-1;border-radius:50%;background:conic-gradient(from 0deg,var(--red),var(--acc),var(--orange),#0d4b1f,var(--red));filter:blur(48px);opacity:.42;animation:spin 16s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.cover{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;background:#111;box-shadow:0 30px 70px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.14);transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out;animation:float 6s ease-in-out infinite alternate}
+.disc{position:relative;overflow:hidden;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none;border-radius:0;box-shadow:0 30px 70px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.14);will-change:transform}
+.disc:active{cursor:grabbing}
+.cover{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;background:#111;pointer-events:none;-webkit-user-drag:none}
+.hole{position:absolute;left:50%;top:50%;width:13%;aspect-ratio:1;border-radius:50%;background:#000;box-shadow:0 0 0 3px rgba(255,255,255,.3),inset 0 0 8px rgba(0,0,0,.8);transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none}
+.hint{display:block;margin-top:14px;font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
 @keyframes float{from{translate:0 0}to{translate:0 -8px}}
 .title{margin:22px 0 18px;font-size:1.6rem;letter-spacing:.16em;font-weight:700}
 .cta{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:200px;background:var(--acc);color:#000;text-decoration:none;font-weight:700;letter-spacing:.3em;text-transform:uppercase;padding:17px 40px;border:1px solid var(--acc);transition:background .2s,color .2s,transform .15s,box-shadow .2s;overflow:hidden}
@@ -63,7 +67,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 .by a{display:inline-block;padding:12px 4px;color:var(--dim);text-decoration:none;border-bottom:1px solid #333;transition:color .2s,border-color .2s}
 .by a:hover,.by a:focus-visible{color:var(--acc);border-color:var(--acc)}
 @media (min-width:640px){.plats{grid-template-columns:repeat(3,1fr)}}
-@media (prefers-reduced-motion:reduce){h1.name{animation:none}.stage::before{animation:none}.cover{animation:none;transition:none}.chip,.cta{transition:none}}
+@media (prefers-reduced-motion:reduce){h1.name{animation:none}.stage::before{animation:none}.stage{animation:none}.chip,.cta{transition:none}}
 </style>
 </head>
 <body>
@@ -75,7 +79,11 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 <p class="genre">Hard techno · Hypnotic</p>
 <p class="rel">-- Official Release --</p>
 <div class="stage" id="stage">
-<img class="cover" id="cover" src="../cover.jpg" alt="Обложка релиза WayToUFOria, TFD777" width="360" height="360" fetchpriority="high">
+<div class="disc" id="disc">
+<img class="cover" id="cover" src="../cover.jpg" alt="Обложка релиза WayToUFOria, TFD777" width="360" height="360" fetchpriority="high" draggable="false">
+<i class="hole" id="hole" aria-hidden="true"></i>
+</div>
+<span class="hint" id="hint" aria-hidden="true">hold &amp; spin</span>
 </div>
 <p class="title">WayToUFOria</p>
 <a class="cta" href="https://band.link/waytouforia" target="_blank" rel="noopener">Listen</a>
@@ -100,23 +108,38 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 <p class="by"><a href="https://asherbakov.ru/">Видео и съёмка → asherbakov.ru</a></p>
 </main>
 <script src="../vendor/gsap.min.js"></script>
+<script src="../vendor/Draggable.min.js"></script>
+<script src="../vendor/InertiaPlugin.min.js"></script>
 <script>
 (function(){
-  var stage=document.getElementById('stage'),cover=document.getElementById('cover');
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function tilt(e){
-    if(reduce)return;
-    var r=stage.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
-    cover.style.setProperty('--ry',(px*14).toFixed(1)+'deg');
-    cover.style.setProperty('--rx',(-py*14).toFixed(1)+'deg');
-  }
-  function reset(){cover.style.setProperty('--rx','0deg');cover.style.setProperty('--ry','0deg')}
-  stage.addEventListener('pointermove',tilt);
-  stage.addEventListener('pointerleave',reset);
-  stage.addEventListener('pointerup',reset);
   var chips=document.querySelectorAll('.chip');
   if(!window.gsap){document.documentElement.classList.add('no-gsap');return}
   var g=window.gsap;
+  /* Обложка-пластинка: зажми и крути, отпустишь, доворачивается по инерции и мягко встаёт ровно */
+  if(window.Draggable&&window.InertiaPlugin){
+    g.registerPlugin(Draggable,InertiaPlugin);
+    var disc=document.getElementById('disc'),hole=document.getElementById('hole'),hint=document.getElementById('hint'),spun=false;
+    var inst=Draggable.create(disc,{type:'rotation',inertia:true,minimumMovement:3,
+      onPress:function(){
+        g.killTweensOf(disc,'rotation');
+        if(!spun){spun=true;g.to(hint,{opacity:0,duration:.4})}
+        if(reduce)return;
+        g.to(disc,{borderRadius:'50%',duration:.45,ease:'power3.out'});
+        g.to(hole,{scale:1,opacity:1,duration:.35,ease:'back.out(2)'});
+      },
+      onRelease:function(){var self=this;g.delayedCall(.08,function(){if(!self.isThrowing)settle()})},
+      onThrowComplete:function(){settle()}
+    })[0];
+    function settle(){
+      var target=Math.round(g.getProperty(disc,'rotation')/360)*360;
+      g.to(disc,{rotation:target,duration:reduce?0:.9,ease:'power3.inOut',onUpdate:function(){inst.update()},onComplete:function(){
+        inst.update();
+        g.to(disc,{borderRadius:0,duration:reduce?0:.5,ease:'power2.out'});
+        g.to(hole,{scale:0,opacity:0,duration:reduce?0:.3});
+      }});
+    }
+  }
   function at(c,e){var r=c.getBoundingClientRect();return [Math.round(e.clientX-r.left),Math.round(e.clientY-r.top)]}
   function css(name,c){return getComputedStyle(c).getPropertyValue(name).trim()}
   function fillIn(c,e){
