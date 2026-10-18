@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TFD777 v5 (черновик: flip) - WayToUFOria</title>
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://tfd777.ru/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+:root{--bg:#000;--fg:#f4f4f2;--dim:#a3aea6;--acc:#b6ff00;--red:#fe153f;--orange:#f44f3d;--peach:#ffd9b8}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+html{overflow-x:hidden}
+body{background:var(--bg);color:var(--fg);font-family:"Courier New",ui-monospace,monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;text-align:center;padding:36px 16px 40px;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px);z-index:1}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,#000 100%);z-index:1}
+.bgface{position:fixed;inset:0;z-index:0;pointer-events:none;background:url(../face.jpg) 50% 28%/cover no-repeat;opacity:.22}
+main{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;max-width:560px}
+.ver{align-self:flex-start;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-decoration:none;border:1px solid #333;padding:8px 12px;margin-bottom:22px}
+.ver:hover,.ver:focus-visible{color:var(--acc);border-color:var(--acc)}
+h1.name{font-size:clamp(3.4rem,19vw,9.5rem);line-height:.95;letter-spacing:.04em;margin:0;font-weight:700;
+  background:linear-gradient(100deg,#b6ff00 0%,#f3ffc4 14%,var(--peach) 28%,var(--orange) 44%,var(--red) 58%,var(--orange) 72%,#f3ffc4 86%,#b6ff00 100%);
+  background-size:200% 100%;background-repeat:repeat-x;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+  animation:flow 4s linear infinite;filter:drop-shadow(0 0 30px rgba(254,21,63,.22))}
+@keyframes flow{from{background-position:0% 50%}to{background-position:200% 50%}}
+.sub{color:var(--dim);letter-spacing:.25em;text-transform:uppercase;font-size:.78rem;margin:14px 0 0}
+.genre{letter-spacing:.3em;text-transform:uppercase;font-size:.76rem;margin:8px 0 0}
+.rel{margin:26px 0 20px;color:var(--acc);letter-spacing:.34em;text-transform:uppercase;font-size:.82rem}
+.stage{position:relative;isolation:isolate;width:min(86vw,360px);animation:float 6s ease-in-out infinite alternate}
+.stage::before{content:"";position:absolute;inset:-16%;z-index:-1;border-radius:50%;background:conic-gradient(from 0deg,var(--red),var(--acc),var(--orange),#0d4b1f,var(--red));filter:blur(48px);opacity:.42;animation:spin 16s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{from{translate:0 0}to{translate:0 -8px}}
+.scene{position:relative;perspective:900px;touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none}
+.scene:active{cursor:grabbing}
+.sway,.tilt,.disc{position:relative;transform-style:preserve-3d}
+.sway{animation:sway 7s ease-in-out infinite alternate}
+@keyframes sway{0%{transform:rotateX(4deg) rotateY(-7deg)}50%{transform:rotateX(-3deg) rotateY(2deg)}100%{transform:rotateX(3deg) rotateY(7deg)}}
+.disc{aspect-ratio:1;will-change:transform}
+.side{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;border-radius:0}
+.side.front{box-shadow:0 30px 70px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.14)}
+.side.back{transform:rotateY(180deg);background:#050505;box-shadow:0 0 0 1px rgba(255,255,255,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px}
+.side.back b{font-size:2.6rem;letter-spacing:.06em;background:linear-gradient(100deg,#b6ff00,#ffd9b8,#f44f3d,#fe153f,#b6ff00);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:flow 4s linear infinite}
+.side.back span{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);line-height:1.8}
+.cover{display:block;width:100%;height:100%;object-fit:cover;background:#111;pointer-events:none;-webkit-user-drag:none}
+.title{margin:22px 0 18px;font-size:1.6rem;letter-spacing:.16em;font-weight:700}
+.cta{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:200px;background:var(--acc);color:#000;text-decoration:none;font-weight:700;letter-spacing:.3em;text-transform:uppercase;padding:17px 40px;border:1px solid var(--acc);transition:background .2s,color .2s,transform .15s,box-shadow .2s;overflow:hidden}
+.cta:hover,.cta:focus-visible{background:#000;color:var(--acc);box-shadow:0 0 38px rgba(182,255,0,.35)}
+.cta:active{transform:scale(.97)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.player{width:100%;margin:26px 0 0}
+.player iframe{display:block;width:100%;height:120px;border:0;background:#111}
+.plats{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.chip{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:52px;padding:12px 16px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.035);backdrop-filter:blur(6px);color:var(--fg);text-decoration:none;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;overflow:hidden;transition:border-color .2s,transform .15s,background .2s}
+.chip .fill{position:absolute;inset:0;background:linear-gradient(120deg,var(--b1),var(--b2));clip-path:circle(0% at 50% 50%);pointer-events:none}
+.chip span,.chip b{position:relative;z-index:1}
+.chip b{font-weight:400;color:var(--acc);display:inline-block}
+.chip:focus-visible{border-color:var(--b1)}
+.chip:active{transform:scale(.97)}
+.chip[data-brand=yandex]{--b1:#ffdd00;--b2:#ffc400;--fg:#000}
+.chip[data-brand=vk]{--b1:#0077ff;--b2:#3f8ae0;--fg:#fff}
+.chip[data-brand=zvuk]{--b1:#21a038;--b2:#6fd86c;--fg:#000}
+.chip[data-brand=kion]{--b1:#ff5a1f;--b2:#ff2e63;--fg:#fff}
+.chip[data-brand=deezer]{--b1:#a238ff;--b2:#ef5466;--fg:#fff}
+.chip[data-brand=spotify]{--b1:#1db954;--b2:#1ed760;--fg:#000}
+.no-gsap .chip:hover .fill,.no-gsap .chip:focus-visible .fill{clip-path:circle(150% at 50% 50%)}
+.no-gsap .chip:hover{color:var(--fg);border-color:var(--b1)}
+.no-gsap .chip:hover b{color:var(--fg)}
+.soc{display:flex;gap:10px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+.soc a{border:1px solid #555;color:var(--fg);text-decoration:none;padding:14px 20px;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;transition:border-color .15s,color .15s}
+.soc a:hover,.soc a:focus-visible{border-color:var(--acc);color:var(--acc)}
+.legal{margin:18px auto 0;max-width:30em;font-size:.68rem;line-height:1.5;color:#6c7a70;letter-spacing:.04em}
+.by{margin:30px 0 0;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase}
+.by a{display:inline-block;padding:12px 4px;color:var(--dim);text-decoration:none;border-bottom:1px solid #333;transition:color .2s,border-color .2s}
+.by a:hover,.by a:focus-visible{color:var(--acc);border-color:var(--acc)}
+@media (min-width:640px){.plats{grid-template-columns:repeat(3,1fr)}}
+@media (prefers-reduced-motion:reduce){h1.name,.side.back b{animation:none}.stage::before{animation:none}.stage{animation:none}.sway{animation:none}.chip,.cta{transition:none}}
+</style>
+</head>
+<body>
+<div class="bgface" aria-hidden="true"></div>
+<main>
+<a class="ver" href="/versions/">&larr; versions · v5 draft</a>
+<h1 class="name">TFD777</h1>
+<p class="sub">Alexander Shcherbakov · Techno Producer</p>
+<p class="genre">Hard techno · Hypnotic</p>
+<p class="rel">-- Official Release --</p>
+<div class="stage" id="stage">
+<div class="scene" id="scene">
+<div class="sway"><div class="tilt" id="tilt"><div class="disc" id="disc">
+<div class="side front">
+<img class="cover" src="../cover.jpg" alt="Обложка релиза WayToUFOria, TFD777" width="360" height="360" fetchpriority="high" draggable="false">
+</div>
+<div class="side back" aria-hidden="true"><b>TFD777</b><span>WayToUFOria<br>Official Release<br>Hard techno · Hypnotic</span></div>
+</div></div></div>
+</div>
+</div>
+<p class="title">WayToUFOria</p>
+<a class="cta" href="https://band.link/waytouforia" target="_blank" rel="noopener">Listen</a>
+<ul class="plats">
+<li><a class="chip" data-brand="yandex" href="https://music.yandex.ru/album/44367203" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>Yandex Music</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="vk" href="https://music.vk.com/link/oaBsn" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>VK Music</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="zvuk" href="https://zvuk.com/release/53349471" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>Zvuk</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="kion" href="https://music.mts.ru/album/44367203" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>KION</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="deezer" href="https://www.deezer.com/album/1116720982" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>Deezer</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="spotify" href="https://open.spotify.com/album/1jJGwvVqXakMiiWmY1KGqA" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>Spotify</span><b>↗</b></a></li>
+</ul>
+<div class="player">
+<iframe title="WayToUFOria на SoundCloud" loading="lazy" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Finvisibleyobic%2Fwaytouforia&amp;color=%23b6ff00&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=false&amp;visual=false"></iframe>
+</div>
+<nav class="soc" aria-label="Соцсети">
+<a href="https://soundcloud.com/invisibleyobic/waytouforia" target="_blank" rel="noopener">SoundCloud</a>
+<a href="https://vk.com/transfuckingdick777" target="_blank" rel="noopener">VK</a>
+<a href="https://instagram.com/tfd.777" target="_blank" rel="noopener">Instagram*</a>
+<a href="https://youtube.com/@tfdk777" target="_blank" rel="noopener">YouTube</a>
+</nav>
+<p class="legal">* Принадлежит компании Meta, признанной экстремистской организацией и запрещённой на территории РФ.</p>
+<p class="by"><a href="https://asherbakov.ru/">Видео и съёмка → asherbakov.ru</a></p>
+</main>
+<script src="../vendor/gsap.min.js"></script>
+<script src="../vendor/Draggable.min.js"></script>
+<script>
+(function(){
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var chips=document.querySelectorAll('.chip');
+  if(!window.gsap){document.documentElement.classList.add('no-gsap');return}
+  var g=window.gsap;
+
+  /* ---------- Обложка: flip (тяни вбок или тапни) ---------- */
+  if(window.Draggable){
+    g.registerPlugin(Draggable);
+    var scene=document.getElementById('scene'),disc=document.getElementById('disc'),tilt=document.getElementById('tilt');
+    var proxy=document.createElement('div');
+    proxy.style.cssText='position:fixed;left:-99px;top:-99px;width:1px;height:1px;pointer-events:none';
+    document.body.appendChild(proxy);
+    var base=0,moved=false,down=false;
+    var qx=g.quickTo(tilt,'rotationY',{duration:.6,ease:'power3.out'}),qy=g.quickTo(tilt,'rotationX',{duration:.6,ease:'power3.out'});
+    if(!reduce){
+      /* лёгкий наклон под курсором (только мышь), как в первой версии */
+      scene.addEventListener('pointermove',function(e){
+        if(down||e.pointerType==='touch')return;
+        var r=scene.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+        qx(px*16);qy(-py*16);
+      });
+      scene.addEventListener('pointerleave',function(){qx(0);qy(0)});
+      /* один раз качнётся: намёк, что её можно перевернуть */
+      g.timeline({delay:1.4})
+        .to(disc,{rotationY:22,duration:.45,ease:'power2.out'})
+        .to(disc,{rotationY:-10,duration:.5,ease:'power2.inOut'})
+        .to(disc,{rotationY:0,duration:.7,ease:'elastic.out(1,.5)'});
+    }
+    Draggable.create(proxy,{type:'x',trigger:scene,minimumMovement:3,
+      onPress:function(){down=true;qx(0);qy(0);g.killTweensOf(disc);base=g.getProperty(disc,'rotationY');moved=false;g.set(proxy,{x:0});this.update()},
+      onDrag:function(){moved=true;g.set(disc,{rotationY:base+this.x*.9})},
+      onRelease:function(){
+        down=false;
+        var snap=Math.round(g.getProperty(disc,'rotationY')/180)*180;
+        g.to(disc,{rotationY:moved?snap:snap+180,duration:reduce?0:.75,ease:'back.out(1.5)'});
+      }
+    });
+  }
+  /* ---------- Плитки площадок ---------- */
+  function at(c,e){var r=c.getBoundingClientRect();return [Math.round(e.clientX-r.left),Math.round(e.clientY-r.top)]}
+  function css(name,c){return getComputedStyle(c).getPropertyValue(name).trim()}
+  function fillIn(c,e){
+    var p=at(c,e),f=c.querySelector('.fill'),fg=css('--fg',c),b1=css('--b1',c);
+    g.killTweensOf([f,c,c.querySelector('b')]);
+    if(reduce){f.style.clipPath='circle(150% at 50% 50%)';c.style.color=fg;c.style.borderColor=b1;c.querySelector('b').style.color=fg;return}
+    g.fromTo(f,{clipPath:'circle(0% at '+p[0]+'px '+p[1]+'px)'},{clipPath:'circle(150% at '+p[0]+'px '+p[1]+'px)',duration:.55,ease:'power3.out'});
+    g.to(c,{color:fg,borderColor:b1,duration:.25,ease:'power1.out'});
+    g.to(c.querySelector('b'),{color:fg,x:3,y:-3,duration:.3,ease:'back.out(2)'});
+  }
+  function fillOut(c,e){
+    var p=at(c,e),f=c.querySelector('.fill');
+    g.killTweensOf([f,c,c.querySelector('b')]);
+    if(reduce){f.style.clipPath='circle(0% at 50% 50%)';c.style.color='';c.style.borderColor='';c.querySelector('b').style.color='';return}
+    g.to(f,{clipPath:'circle(0% at '+p[0]+'px '+p[1]+'px)',duration:.4,ease:'power2.inOut'});
+    g.to(c,{color:'#f4f4f2',borderColor:'rgba(255,255,255,.2)',duration:.3});
+    g.to(c.querySelector('b'),{color:'#b6ff00',x:0,y:0,duration:.3,ease:'power2.out'});
+  }
+  chips.forEach(function(c){
+    c.addEventListener('pointerenter',function(e){fillIn(c,e)});
+    c.addEventListener('pointerleave',function(e){fillOut(c,e)});
+    c.addEventListener('focus',function(){var r=c.getBoundingClientRect();fillIn(c,{clientX:r.left+r.width/2,clientY:r.top+r.height/2})});
+    c.addEventListener('blur',function(){var r=c.getBoundingClientRect();fillOut(c,{clientX:r.left+r.width/2,clientY:r.top+r.height/2})});
+  });
+  if(!reduce){g.from(chips,{opacity:0,y:18,duration:.6,ease:'power3.out',stagger:.07,delay:.25})}
+})();
+</script>
+</body>
+</html>
