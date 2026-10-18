@@ -41,13 +41,20 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 .player iframe{display:block;width:100%;height:120px;border:0;background:#111}
 .plats{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
 .chip{--x:50%;--y:50%;position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:52px;padding:12px 16px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.035);backdrop-filter:blur(6px);color:var(--fg);text-decoration:none;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;overflow:hidden;transition:border-color .2s,transform .15s,background .2s}
-.chip::before{content:"";position:absolute;inset:0;background:radial-gradient(circle 120px at var(--x) var(--y),rgba(182,255,0,.28),transparent 70%);opacity:0;transition:opacity .25s}
-.chip span,.chip b{position:relative}
-.chip b{font-weight:400;color:var(--acc);transition:transform .2s}
-.chip:hover,.chip:focus-visible,.chip.hot{border-color:var(--acc)}
-.chip:hover::before,.chip.hot::before{opacity:1}
-.chip:hover b{transform:translate(3px,-3px)}
+.chip .fill{position:absolute;inset:0;background:linear-gradient(120deg,var(--b1),var(--b2));clip-path:circle(0% at 50% 50%);pointer-events:none}
+.chip span,.chip b{position:relative;z-index:1}
+.chip b{font-weight:400;color:var(--acc);display:inline-block}
+.chip:focus-visible{border-color:var(--b1)}
 .chip:active{transform:scale(.97)}
+.chip[data-brand=yandex]{--b1:#ffdd00;--b2:#ffc400;--fg:#000}
+.chip[data-brand=vk]{--b1:#0077ff;--b2:#3f8ae0;--fg:#fff}
+.chip[data-brand=zvuk]{--b1:#21a038;--b2:#6fd86c;--fg:#000}
+.chip[data-brand=kion]{--b1:#ff5a1f;--b2:#ff2e63;--fg:#fff}
+.chip[data-brand=deezer]{--b1:#a238ff;--b2:#ef5466;--fg:#fff}
+.chip[data-brand=spotify]{--b1:#1db954;--b2:#1ed760;--fg:#000}
+.no-gsap .chip:hover .fill,.no-gsap .chip:focus-visible .fill{clip-path:circle(150% at 50% 50%)}
+.no-gsap .chip:hover{color:var(--fg);border-color:var(--b1)}
+.no-gsap .chip:hover b{color:var(--fg)}
 .soc{display:flex;gap:10px;justify-content:center;margin-top:26px;flex-wrap:wrap}
 .soc a{border:1px solid #555;color:var(--fg);text-decoration:none;padding:14px 20px;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;transition:border-color .15s,color .15s}
 .soc a:hover,.soc a:focus-visible{border-color:var(--acc);color:var(--acc)}
@@ -73,12 +80,12 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 <p class="title">WayToUFOria</p>
 <a class="cta" href="https://band.link/waytouforia" target="_blank" rel="noopener">Listen</a>
 <ul class="plats">
-<li><a class="chip" href="https://music.yandex.ru/album/44367203" target="_blank" rel="noopener"><span>Yandex Music</span><b>↗</b></a></li>
-<li><a class="chip" href="https://music.vk.com/link/oaBsn" target="_blank" rel="noopener"><span>VK Music</span><b>↗</b></a></li>
-<li><a class="chip" href="https://zvuk.com/release/53349471" target="_blank" rel="noopener"><span>Zvuk</span><b>↗</b></a></li>
-<li><a class="chip" href="https://music.mts.ru/album/44367203" target="_blank" rel="noopener"><span>KION</span><b>↗</b></a></li>
-<li><a class="chip" href="https://www.deezer.com/album/1116720982" target="_blank" rel="noopener"><span>Deezer</span><b>↗</b></a></li>
-<li><a class="chip" href="https://open.spotify.com/album/1jJGwvVqXakMiiWmY1KGqA" target="_blank" rel="noopener"><span>Spotify</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="yandex" href="https://music.yandex.ru/album/44367203" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>Yandex Music</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="vk" href="https://music.vk.com/link/oaBsn" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>VK Music</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="zvuk" href="https://zvuk.com/release/53349471" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>Zvuk</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="kion" href="https://music.mts.ru/album/44367203" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>KION</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="deezer" href="https://www.deezer.com/album/1116720982" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>Deezer</span><b>↗</b></a></li>
+<li><a class="chip" data-brand="spotify" href="https://open.spotify.com/album/1jJGwvVqXakMiiWmY1KGqA" target="_blank" rel="noopener"><i class="fill" aria-hidden="true"></i><span>Spotify</span><b>↗</b></a></li>
 </ul>
 <div class="player">
 <iframe title="WayToUFOria на SoundCloud" loading="lazy" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Finvisibleyobic%2Fwaytouforia&amp;color=%23b6ff00&amp;auto_play=false&amp;hide_related=true&amp;show_comments=false&amp;show_user=true&amp;show_reposts=false&amp;show_teaser=false&amp;visual=false"></iframe>
@@ -92,6 +99,7 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 <p class="legal">* Принадлежит компании Meta, признанной экстремистской организацией и запрещённой на территории РФ.</p>
 <p class="by"><a href="https://asherbakov.ru/">Видео и съёмка → asherbakov.ru</a></p>
 </main>
+<script src="../vendor/gsap.min.js"></script>
 <script>
 (function(){
   var stage=document.getElementById('stage'),cover=document.getElementById('cover');
@@ -106,15 +114,36 @@ a:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
   stage.addEventListener('pointermove',tilt);
   stage.addEventListener('pointerleave',reset);
   stage.addEventListener('pointerup',reset);
-  document.querySelectorAll('.chip').forEach(function(c){
-    c.addEventListener('pointerdown',function(e){
-      var r=c.getBoundingClientRect();
-      c.style.setProperty('--x',(e.clientX-r.left)+'px');
-      c.style.setProperty('--y',(e.clientY-r.top)+'px');
-      c.classList.add('hot');
-    });
-    ['pointerup','pointerleave','pointercancel'].forEach(function(t){c.addEventListener(t,function(){c.classList.remove('hot')})});
+  var chips=document.querySelectorAll('.chip');
+  if(!window.gsap){document.documentElement.classList.add('no-gsap');return}
+  var g=window.gsap;
+  function at(c,e){var r=c.getBoundingClientRect();return [Math.round(e.clientX-r.left),Math.round(e.clientY-r.top)]}
+  function css(name,c){return getComputedStyle(c).getPropertyValue(name).trim()}
+  function fillIn(c,e){
+    var p=at(c,e),f=c.querySelector('.fill'),fg=css('--fg',c),b1=css('--b1',c);
+    g.killTweensOf([f,c,c.querySelector('b')]);
+    if(reduce){f.style.clipPath='circle(150% at 50% 50%)';c.style.color=fg;c.style.borderColor=b1;c.querySelector('b').style.color=fg;return}
+    g.fromTo(f,{clipPath:'circle(0% at '+p[0]+'px '+p[1]+'px)'},{clipPath:'circle(150% at '+p[0]+'px '+p[1]+'px)',duration:.55,ease:'power3.out'});
+    g.to(c,{color:fg,borderColor:b1,duration:.25,ease:'power1.out'});
+    g.to(c.querySelector('b'),{color:fg,x:3,y:-3,duration:.3,ease:'back.out(2)'});
+  }
+  function fillOut(c,e){
+    var p=at(c,e),f=c.querySelector('.fill');
+    g.killTweensOf([f,c,c.querySelector('b')]);
+    if(reduce){f.style.clipPath='circle(0% at 50% 50%)';c.style.color='';c.style.borderColor='';c.querySelector('b').style.color='';return}
+    g.to(f,{clipPath:'circle(0% at '+p[0]+'px '+p[1]+'px)',duration:.4,ease:'power2.inOut'});
+    g.to(c,{color:'#f4f4f2',borderColor:'rgba(255,255,255,.2)',duration:.3});
+    g.to(c.querySelector('b'),{color:'#b6ff00',x:0,y:0,duration:.3,ease:'power2.out'});
+  }
+  chips.forEach(function(c){
+    c.addEventListener('pointerenter',function(e){fillIn(c,e)});
+    c.addEventListener('pointerleave',function(e){fillOut(c,e)});
+    c.addEventListener('focus',function(){var r=c.getBoundingClientRect();fillIn(c,{clientX:r.left+r.width/2,clientY:r.top+r.height/2})});
+    c.addEventListener('blur',function(){var r=c.getBoundingClientRect();fillOut(c,{clientX:r.left+r.width/2,clientY:r.top+r.height/2})});
   });
+  if(!reduce){
+    g.from(chips,{opacity:0,y:18,duration:.6,ease:'power3.out',stagger:.07,delay:.25});
+  }
 })();
 </script>
 </body>
