@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-{"@type":"Person","@id":"https://tfd777.ru/#person","name":"Alexander Shcherbakov","alternateName":["Александр Щербаков","TFD777"],"jobTitle":"Techno Producer","description":"Техно-продюсер и видеограф из Нижнего Новгорода, выступает как TFD777.","url":"https://tfd777.ru/","sameAs":["https://asherbakov.ru/","https://www.wikidata.org/wiki/Q141679032","https://musicbrainz.org/artist/5034af26-c007-448b-b47c-1117588ff3f8","https://soundcloud.com/invisibleyobic","https://youtube.com/@tfdk777"]},
+{"@type":"Person","@id":"https://tfd777.ru/#person","name":"Alexander Shcherbakov","alternateName":["Александр Щербаков","TFD777"],"jobTitle":"Techno Producer","image":"https://tfd777.ru/face.jpg","description":"Техно-продюсер и видеограф из Нижнего Новгорода, выступает как TFD777.","url":"https://tfd777.ru/","sameAs":["https://tfd777.ru/about/","https://asherbakov.ru/","https://www.wikidata.org/wiki/Q141679032","https://musicbrainz.org/artist/5034af26-c007-448b-b47c-1117588ff3f8","https://soundcloud.com/invisibleyobic","https://youtube.com/@tfdk777"]},
 {"@type":"MusicGroup","@id":"https://tfd777.ru/#artist","name":"TFD777","alternateName":"Александр Щербаков","genre":["Hard techno","Hypnotic techno"],"description":"Проект Александра Щербакова: хард-техно и гипнотик.","founder":{"@id":"https://tfd777.ru/#person"},"url":"https://tfd777.ru/","image":"https://tfd777.ru/cover.jpg","sameAs":["https://www.wikidata.org/wiki/Q141679032","https://musicbrainz.org/artist/5034af26-c007-448b-b47c-1117588ff3f8","https://music.yandex.ru/artist/26765131","https://open.spotify.com/artist/2dw2GdcWisTdhipnsAjZ13","https://band.link/waytouforia","https://soundcloud.com/invisibleyobic","https://vk.com/transfuckingdick777","https://instagram.com/tfd.777","https://youtube.com/@tfdk777"]},
 {"@type":"MusicAlbum","@id":"https://tfd777.ru/#album","name":"WayToUFOria","byArtist":{"@id":"https://tfd777.ru/#artist"},"url":"https://band.link/waytouforia","image":"https://tfd777.ru/cover.jpg","genre":"Techno","sameAs":["https://music.yandex.ru/album/44367203","https://open.spotify.com/album/1jJGwvVqXakMiiWmY1KGqA","https://soundcloud.com/invisibleyobic/waytouforia"]}
 ]}
@@ -36,6 +36,11 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;background:rad
 main{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;max-width:560px}
 .ver{align-self:flex-start;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-decoration:none;border:1px solid #333;padding:7px 10px;margin-bottom:12px}
 .ver:hover,.ver:focus-visible{color:var(--acc);border-color:var(--acc)}
+.bio{align-self:flex-start;display:inline-flex;align-items:center;gap:9px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);text-decoration:none;border:1px solid var(--acc);padding:7px 11px;margin-bottom:12px;animation:biopulse 2s ease-in-out infinite}
+.bio i{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 0 rgba(182,255,0,.7);animation:biodot 2s ease-out infinite}
+.bio:hover,.bio:focus-visible{background:var(--acc);color:#000}.bio:hover i,.bio:focus-visible i{background:#000}
+@keyframes biopulse{50%{box-shadow:0 0 14px rgba(182,255,0,.45)}}
+@keyframes biodot{to{box-shadow:0 0 0 9px rgba(182,255,0,0)}}
 h1.name{font-size:clamp(3.4rem,19vw,8.4rem);white-space:nowrap;line-height:.95;letter-spacing:.04em;margin:0;font-weight:700;
   background:linear-gradient(100deg,#b6ff00 0%,#f3ffc4 14%,var(--peach) 28%,var(--orange) 44%,var(--red) 58%,var(--orange) 72%,#f3ffc4 86%,#b6ff00 100%);
   background-size:200% 100%;background-repeat:repeat-x;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
@@ -102,12 +107,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset
 .by a{display:inline-block;padding:12px 4px;color:var(--dim);text-decoration:none;border-bottom:1px solid #333;transition:color .2s,border-color .2s}
 .by a:hover,.by a:focus-visible{color:var(--acc);border-color:var(--acc)}
 @media (min-width:640px){.plats{grid-template-columns:repeat(3,1fr)}}
-@media (prefers-reduced-motion:reduce){h1.name,.side.back b{animation:none}.stage::before{animation:none}.stage{animation:none}.sway{animation:none}.chip,.cta{transition:none}}
+@media (prefers-reduced-motion:reduce){h1.name,.side.back b{animation:none}.stage::before{animation:none}.bio,.bio i{animation:none}.stage{animation:none}.sway{animation:none}.chip,.cta{transition:none}}
 </style>
 </head>
 <body>
 <div class="bgface" aria-hidden="true"></div>
 <main>
+<a class="bio" href="/about/"><i aria-hidden="true"></i>TFD777 / about</a>
 <h1 class="name" id="brand">TFD777</h1>
 <p class="sub">Alexander Shcherbakov · Techno Producer</p>
 <p class="genre">Hard techno · Hypnotic</p>
@@ -139,7 +145,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset
 <a href="https://instagram.com/tfd.777" target="_blank" rel="noopener">Instagram*</a>
 <a href="https://youtube.com/@tfdk777" target="_blank" rel="noopener">YouTube</a>
 </nav>
-<p class="about"><strong style="color:var(--fg);font-weight:700">TFD777</strong> (ТФД777) — проект Александра Щербакова из Нижнего Новгорода: хард-техно и гипнотик. «WayToUFOria» — официальный релиз, он доступен на Яндекс Музыке, VK Музыке, в Звуке, KION, Deezer, Spotify и на SoundCloud.</p>
+<p class="about"><strong style="color:var(--fg);font-weight:700">TFD777</strong> (ТФД777) — сценическое имя <a href="/about/" style="color:var(--fg)">Александра Щербакова</a> из Нижнего Новгорода: хард-техно и гипнотик. «WayToUFOria» — официальный релиз, он доступен на Яндекс Музыке, VK Музыке, в Звуке, KION, Deezer, Spotify и на SoundCloud.</p>
 <p class="legal">* Принадлежит компании Meta, признанной экстремистской организацией и запрещённой на территории РФ.</p>
 <p class="by"><a href="https://asherbakov.ru/">Видео и съёмка → asherbakov.ru</a></p>
 </main>
